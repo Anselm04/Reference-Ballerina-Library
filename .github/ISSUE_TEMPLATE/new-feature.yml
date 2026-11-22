@@ -1,0 +1,62 @@
+name: "💡 New Feature Request"
+description: Suggest new functionality and features for the product.
+labels: ["Type/NewFeature"]
+body:
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      description: Select the area this issue relates to
+      options:
+        - Area/AI
+        - Area/AIAgent
+        - Area/AzureWebsubHub
+        - Area/BallerinaToOpenapi
+        - Area/Build
+        - Area/CompilerPlugin
+        - Area/Connector
+        - Area/Docs
+        - Area/EventIntegration
+        - Area/FileIntegration
+        - Area/GraalVM
+        - Area/GradlePlugin
+        - Area/Healthcare
+        - Area/KafkaHub
+        - Area/LangLibrary
+        - Area/Library
+        - Area/Observerbility
+        - Area/OpenapiToBallerina
+        - Area/Security
+        - Area/StaticCode
+        - Area/Tooling
+        - Area/Workflow
+    validations:
+      required: false
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What is the problem this feature will solve?
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: Describe the solution you'd like to have.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives
+      description: Describe any alternatives have you considered
+    validations:
+      required: false
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Enter product/component version.
+    validations:
+      required: false

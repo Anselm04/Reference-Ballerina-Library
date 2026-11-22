@@ -1,0 +1,56 @@
+apply plugin: 'java'
+
+group = 'io.ballerina.connector.automator'
+version = '0.1.0'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        url = 'https://maven.pkg.github.com/ballerina-platform/*'
+        credentials {
+            username System.getenv("packageUser")
+            password System.getenv("packagePAT")
+        }
+    }
+    maven {
+        url 'https://maven.wso2.org/nexus/content/repositories/releases/'
+    }
+}
+
+dependencies {
+    compileOnly "org.ballerinalang:ballerina-runtime:${ballerinaLangVersion}"
+
+    testImplementation 'org.testng:testng:7.10.2'
+    // ASM for parsing .class files without loading classes
+    implementation 'org.ow2.asm:asm:9.5'
+    implementation 'org.ow2.asm:asm-tree:9.5'
+    // JavaParser for parsing source .java files to extract javadoc/parameter names
+    implementation 'com.github.javaparser:javaparser-core:3.25.4'
+    implementation 'com.github.javaparser:javaparser-symbol-solver-core:3.25.4'
+    // HTML parser for extracting javadoc descriptions
+    implementation 'org.jsoup:jsoup:1.16.1'
+}
+
+compileJava {
+    options.encoding = 'UTF-8'
+    options.compilerArgs << '-parameters'
+    // Enable deprecation linting to surface deprecated API usage locations
+    options.compilerArgs << '-Xlint:deprecation'
+}
+
+test {
+    useTestNG()
+}
+
+// Create fat JAR with all dependencies
+jar {
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
